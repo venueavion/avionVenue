@@ -13,14 +13,14 @@ import GallerySection from '../GallerSection/GallerSection';
 import PageLanding from '../PageLanding/PageLanding';
 import { LoadingPage } from '../LoadingPage/LoadingPage';
 
-const landingTtitle = 'Weddings';
+const landingTtitle = ' Weddings ';
 const landingDescription =
   'A stunning historic venue in the heart of Sheffield';
 
 const WeddingPage = () => {
   const [gridItems, setGridItems] = useState([]);
   const [landingData, setLandingData] = useState({
-    title: 'Weddings',
+    title: ' Weddings ',
     description:
       'Weddings at Our Venue are magical! The splendor of the building - both inside and out has made this beautiful setting one of the most sought after urban venues in the region. Complete with a British garden on the roof terrace for blooms, drinks and photographs, Avion Venue is luxuriously historic with gentle styling and a story behind even the smallest item including of course - bespoke Sheffield cutlery for your wedding feast!',
     backgroundImage: weddingImg,
@@ -111,80 +111,9 @@ const WeddingPage = () => {
       {error.gallery && (
         <div className="text-center py-2 text-red-500">{error.gallery}</div>
       )}
-      <GallerySection items={gridItems} />
+      <GallerySection items={gridItems.length ? gridItems : defaultGridData} />
     </div>
   );
 };
 
 export default WeddingPage;
-
-// import React from 'react';
-
-// // Import your images for the grid (ensure paths are correct relative to this file)
-// import foodImg from '../../assets/images/food.jpg';
-// import drinksImg from '../../assets/images/drinks.jpg';
-// import eventsImg from '../../assets/images/events.jpg';
-// import cinemaImg from '../../assets/images/conference.jpg';
-// import weddingImg from '../../assets/images/wedding.jpg';
-// import trainingImgGrid from '../../assets/images/trainning.jpg';
-
-// import WelcomePage from '../WelcomePage/WelcomePage';
-// import GallerySection from '../GallerSection/GallerSection';
-// import PageLanding from '../PageLanding/PageLanding';
-
-// const imageGridData = [
-//   {
-//     title: 'FOOD',
-//     image: foodImg,
-//   },
-//   {
-//     title: 'DRINKS',
-//     image: drinksImg,
-//   },
-//   {
-//     title: 'EVENTS',
-//     image: eventsImg,
-//   },
-//   {
-//     title: 'CINEMA',
-//     image: cinemaImg,
-//   },
-//   {
-//     title: 'WEDDING',
-//     image: weddingImg,
-//   },
-//   {
-//     title: 'TRAINING',
-//     image: trainingImgGrid,
-//   },
-// ];
-
-// const landing_title = ' Weddings ';
-// const landing_description =
-//   'A stunning historic venue in the heart of Sheffield';
-// const backgroundImage = weddingImg;
-
-// const WeddingPage = () => {
-
-//   const title = ' Weddings ';
-//   const description =
-//     'Weddings at Our Venue are magical! The splendor of the building - both inside and out has made this beautiful setting one of the most sought after urban venues in the region. Complete with a British garden on the roof terrace for blooms, drinks and photographs, Avion Venue is luxuriously historic with gentle styling and a story behind even the smallest item including of course - bespoke Sheffield cutlery for your wedding feast!';
-//   return (
-//     <div className="font-sans text-gray-800">
-//       <div id="weddings"></div>
-//       {/* Landing Page */}
-//       <PageLanding
-//         title={landing_title}
-//         description={landing_description}
-//         backgroundImage={backgroundImage}
-//       />
-//       {/* Intro Section */}
-//       <WelcomePage title={title} description={description} />
-
-//       {/* Images */}
-//       <GallerySection items={imageGridData} />
-//     </div>
-//   );
-// };
-
-// export default WeddingPage;

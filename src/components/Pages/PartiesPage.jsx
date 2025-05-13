@@ -110,7 +110,9 @@ const PartiesPage = () => {
       {error.gallery && (
         <div className="text-center py-2 text-red-500">{error.gallery}</div>
       )}
-      <GallerySection items={imageGridData} />
+      <GallerySection
+        items={imageGridData.length ? imageGridData : defaultImageGridData}
+      />
     </div>
   );
 };

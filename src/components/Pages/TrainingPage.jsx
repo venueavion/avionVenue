@@ -1,67 +1,119 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-// Import your images for the grid (ensure paths are correct relative to this file)
 import foodImg from '../../assets/images/food.jpg';
 import partiesImg from '../../assets/images/parties.jpg';
 import eventsImg from '../../assets/images/events.jpg';
 import worshipImg from '../../assets/images/church.jpg';
-import weddingImg from '../../assets/images/wedding.jpg';
+import meetingImg from '../../assets/images/meeting.jpg';
 import trainingImgGrid from '../../assets/images/training.jpg';
 
 import WelcomePage from '../WelcomePage/WelcomePage';
 import GallerySection from '../GallerSection/GallerSection';
 import PageLanding from '../PageLanding/PageLanding';
+import { LoadingPage } from '../LoadingPage/LoadingPage';
 
-const imageGridData = [
-  {
-    title: 'TRAINING',
-    image: trainingImgGrid,
-  },
-  {
-    title: 'WORSHIP',
-    image: worshipImg,
-  },
-  {
-    title: 'FOOD',
-    image: foodImg,
-  },
-  {
-    title: 'PARTIES',
-    image: partiesImg,
-  },
-  {
-    title: 'EVENTS',
-    image: eventsImg,
-  },
-
-  {
-    title: 'WEDDING',
-    image: weddingImg,
-  },
-];
-
-const landing_title = ' Trainings ';
-const landing_description =
+const landingTtitle = ' Trainings ';
+const landingDescription =
   'A stunning historic venue in the heart of Sheffield';
-const backgroundImage = trainingImgGrid;
 
 const TrainingPage = () => {
-  const title = ' Trainings ';
-  const description =
-    'Trainings at Our Venue are magical! The splendor of the building - both inside and out has made this beautiful setting one of the most sought after urban venues in the region. Complete with a British garden on the roof terrace for blooms, drinks and photographs, Avion Venue is luxuriously historic with gentle styling and a story behind even the smallest item including of course - bespoke Sheffield cutlery for your wedding feast!';
+  const [imageGridData, setImageGridData] = useState([]);
+  const [landingData, setLandingData] = useState({
+    title: ' Trainings ',
+    description:
+      'Trainings at Our Venue are magical! The splendor of the building - both inside and out has made this beautiful setting one of the most sought after urban venues in the region.',
+    backgroundImage: trainingImgGrid,
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState({
+    gallery: null,
+    landing: null,
+  });
+
+  // Default data if API fails
+  const defaultImageGridData = [
+    { title: 'TRAINING', image: trainingImgGrid },
+    { title: 'WORSHIP', image: worshipImg },
+    { title: 'FOOD', image: foodImg },
+    { title: 'PARTIES', image: partiesImg },
+    { title: 'EVENTS', image: eventsImg },
+    { title: 'MEETING', image: meetingImg },
+  ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch both endpoints concurrently
+        const [galleryResponse, landingResponse] = await Promise.all([
+          axios.get('http://localhost:3000/images/category/training_gallery'),
+          axios.get('http://localhost:3000/images/category/training_dashboard'),
+        ]);
+
+        // Process gallery images
+        if (galleryResponse.data) {
+          const formattedData = galleryResponse.data.map((item, index) => ({
+            title:
+              item.title ||
+              defaultImageGridData[index]?.title ||
+              `Image ${index + 1}`,
+            image: item.path || defaultImageGridData[index]?.image,
+          }));
+          setImageGridData(formattedData.slice(0, 6));
+        }
+
+        // Process landing page data
+        if (landingResponse.data?.length > 0) {
+          const landingItem = landingResponse.data[0];
+          setLandingData({
+            title: landingItem.title || 'Trainings',
+            description: landingItem.description || landingData.description,
+            backgroundImage: landingItem.path || landingData.backgroundImage,
+          });
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError({
+          gallery: 'Failed to load gallery images. Using default content.',
+          landing: 'Failed to load landing page data. Using default content.',
+        });
+        setImageGridData(defaultImageGridData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading)
+    return <LoadingPage message="Avion is preparing something special.." />;
+
   return (
     <div className="font-sans text-gray-800">
       {/* Landing Page */}
+      {error.landing && (
+        <div className="text-center py-2 text-red-500">{error.landing}</div>
+      )}
       <PageLanding
-        title={landing_title}
-        description={landing_description}
-        backgroundImage={backgroundImage}
+        title={landingTtitle}
+        description={landingDescription}
+        backgroundImage={landingData.backgroundImage}
       />
+
       {/* Intro Section */}
-      <WelcomePage title={title} description={description} />
+      <WelcomePage
+        title={landingData.title}
+        description={landingData.description}
+      />
 
       {/* Images */}
-      <GallerySection items={imageGridData} />
+      {error.gallery && (
+        <div className="text-center py-2 text-red-500">{error.gallery}</div>
+      )}
+      <GallerySection
+        items={imageGridData.length ? imageGridData : defaultImageGridData}
+      />
     </div>
   );
 };
