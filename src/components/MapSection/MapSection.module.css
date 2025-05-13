@@ -1,0 +1,48 @@
+/* src/components/MapSection/MapSection.module.css */
+.mapSection {
+    padding: 0rem 0; /* Adjust vertical padding (4rem top/bottom) as needed */
+    text-align: center;
+  }
+
+
+.mapContainer {
+    height: 450px; /* Base height */
+    width: 100%;
+
+  }
+  .mapContainer .leaflet-container {
+    height: 100%;
+    width: 100%;
+}
+
+/* Leaflet pop-up styling override (optional) */
+.leaflet-popup-content-wrapper {
+  border-radius: 4px;
+}
+.leaflet-popup-content {
+   font-family: var(--font-body);
+}
+@media (max-width: 768px) {
+    .mapSection {
+      padding: 3rem 0; /* Adjust vertical padding */
+    }
+    .mapContainer {
+      height: 350px; /* Adjust map height */
+    }
+     .mapSection h2 {
+       padding: 0 5%; /* Keep heading padding */
+     }
+  }
+  
+  @media (max-width: 500px) {
+    .mapSection {
+      padding: 2rem 0; /* Adjust vertical padding */
+    }
+    .mapContainer {
+      height: 300px; /* Adjust map height */
+    }
+     .mapSection h2 {
+       padding: 0 5%; /* Keep heading padding */
+       font-size: 1.8rem; /* Example: Adjust heading size */
+     }
+  }

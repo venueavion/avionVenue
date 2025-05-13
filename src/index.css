@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: white;
+}
+
+@layer components {
+  .logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    line-height: 299em;
+    font-size:xx-large ;
+  }
+}
+
+
+
+/* src/index.css */
+:root {
+  --navbar-height: 80px; /* Default height */
+  --color-background: #FFFFFF; /* White */
+  --color-text: #333333;      /* Dark Grey for readability */
+  --color-primary-gold: #B8860B; /* DarkGoldenrod - A classic gold */
+  --color-accent-gold: #D4AF37;  /* Lighter gold for accents/hovers */
+  --color-subtle-gold: #F0E68C; /* Khaki - very light gold for backgrounds if needed */
+  --font-heading: 'Playfair Display', serif; /* Example elegant serif */
+  --font-body: 'Lato', sans-serif;        /* Example clean sans-serif */
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-primary-gold); /* Gold headings */
+}
+
+
+a {
+  color: var(--color-primary-gold);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+
