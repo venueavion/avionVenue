@@ -1,12 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+
+import foodImg from '../../assets/images/food.jpg';
+import privateHaireImg from '../../assets/images/private-hire.jpg';
+import cinemaImg from '../../assets/images/conference.jpg';
+import weddingImg from '../../assets/images/wedding.jpg';
+import trainingImgGrid from '../../assets/images/training.jpg';
+import partiesImg from '../../assets/images/parties.jpg';
+
 import GallerySection from '../GallerSection/GallerSection';
 import { LoadingPage } from '../LoadingPage/LoadingPage';
 
 const GalleryPage = () => {
-  const [gridItems, setGridItems] = useState([]);
+  const [galleryImageItems, setGalleryImageItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // Default data (used if API fails)
+  const defaultGalleryData = [
+    { title: 'FOOD', image: foodImg },
+    { title: 'PARTIES', image: partiesImg },
+    { title: 'EVENTS', image: cinemaImg },
+    { title: 'TRAINING', image: trainingImgGrid },
+    { title: 'PRIVATE HIRE', image: privateHaireImg },
+    { title: 'WEDDING', image: weddingImg },
+  ];
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -27,10 +45,11 @@ const GalleryPage = () => {
             image: item.path, // Using the Supabase URL from your backend
           }));
 
-        setGridItems(formattedData);
+        setGalleryImageItems(formattedData);
       } catch (err) {
         console.error('Error fetching images:', err);
-        setError('Failed to load gallery images');
+        setError('Failed to load gallery images. Using default content.....');
+        setGalleryImageItems(defaultGalleryData);
       } finally {
         setLoading(false);
       }
@@ -41,13 +60,13 @@ const GalleryPage = () => {
 
   if (loading)
     return <LoadingPage message="Avion is preparing something special.." />;
-
-  if (error)
-    return <div className="text-center py-8 text-red-500">{error}</div>;
-
   return (
-    <div>
-      <GallerySection items={gridItems} />
+    <div className="font-sans text-gray-800">
+      <GallerySection
+        items={
+          galleryImageItems.length ? galleryImageItems : defaultGalleryData
+        }
+      />
     </div>
   );
 };

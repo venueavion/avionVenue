@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -61,7 +60,7 @@ const AvionSection = ({ title, description, imageUrl, reverse, linkUrl }) => {
             variants={textVariants}
           >
             <div className="max-w-lg mx-auto md:mx-16 lg:mx-24">
-              <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-light text-gray-800 mb-6 font-serif tracking-tight">
+              <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-light text-gray-800 mb-6 font-serif tracking-tight uppercase">
                 {title}
               </h2>
               <p className="text-center text-gray-600 leading-relaxed mb-8 font-sans text-lg">

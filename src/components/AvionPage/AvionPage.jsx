@@ -42,7 +42,7 @@ const AvionPage = () => {
     const fetchSections = async () => {
       try {
         const types =
-          'wedding_animate,parties_animate,training_animate,privateHire_animate';
+          'wedding_animate,parties_animate,training_animate,privateHire_animate,church_animate';
         const apiUrl = `http://localhost:3000/images/getOneImagePerType/types?types=${types}`;
         console.log('Request URL:', apiUrl);
 
@@ -101,7 +101,7 @@ const AvionPage = () => {
 
   return (
     <div className="py-12 md:py-20 font-sans bg-white">
-      {error && <div className="text-center py-2 text-red-500">{error}</div>}
+      {/* {error && <div className="text-center py-2 text-red-500">{error}</div>} */}
       {sections.map((section, index) => (
         <AvionSection
           key={index}

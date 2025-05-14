@@ -92,9 +92,9 @@ const PartiesPage = () => {
   return (
     <div className="font-sans text-gray-800">
       {/* Landing Page */}
-      {error.landing && (
+      {/* {error.landing && (
         <div className="text-center py-2 text-red-500">{error.landing}</div>
-      )}
+      )} */}
       <PageLanding
         title={landingTitle}
         description={landingDescription}

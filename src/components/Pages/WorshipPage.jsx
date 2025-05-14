@@ -46,8 +46,8 @@ const WorshipPage = () => {
       try {
         // Fetch both endpoints concurrently
         const [galleryResponse, landingResponse] = await Promise.all([
-          axios.get('http://localhost:3000/images/category/worship_gallery'),
-          axios.get('http://localhost:3000/images/category/worship_dashboard'),
+          axios.get('http://localhost:3000/images/category/church_gallery'),
+          axios.get('http://localhost:3000/images/category/church_dashboard'),
         ]);
 
         // Process gallery images
@@ -93,12 +93,12 @@ const WorshipPage = () => {
   return (
     <div className="font-sans text-gray-800">
       {/* Error Messages */}
-      {error.landing && (
+      {/* {error.landing && (
         <div className="text-center py-2 text-red-500">{error.landing}</div>
       )}
       {error.gallery && (
         <div className="text-center py-2 text-red-500">{error.gallery}</div>
-      )}
+      )} */}
 
       {/* Landing Page */}
       <PageLanding
