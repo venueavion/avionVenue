@@ -1,5 +1,5 @@
-// src/components/ContactForm/ContactForm.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import emailjs from 'emailjs-com';
 
 function ContactForm({ id }) {
   const [formData, setFormData] = useState({
@@ -12,39 +12,87 @@ function ContactForm({ id }) {
     message: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  // Add this temporarily to your ContactForm component
+  useEffect(() => {
+    console.log({
+      serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      userId: import.meta.env.VITE_EMAILJS_USER_ID,
+      recipient: import.meta.env.VITE_RECIPIENT_EMAIL,
+    });
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here (e.g., send data to an API)
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message!'); // Placeholder feedback
+    setIsSubmitting(true);
+    setSubmitError('');
+    setSubmitSuccess(false);
+
+    try {
+      // Basic validation
+      if (!formData.firstName.trim() || !formData.lastName.trim()) {
+        throw new Error('First and last name are required');
+      }
+
+      if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+        throw new Error('Please enter a valid email');
+      }
+
+      // Send email via EmailJS
+      const response = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: `${formData.firstName} ${formData.lastName}`,
+          from_email: formData.email,
+          phone: formData.phone || 'Not provided',
+          event_date: formData.date || 'Not specified',
+          guest_count: formData.guests || 'Not specified',
+          message: formData.message,
+          to_email: import.meta.env.VITE_RECIPIENT_EMAIL,
+          submission_time: new Date().toLocaleString(),
+        },
+        import.meta.env.VITE_EMAILJS_USER_ID
+      );
+
+      console.log('EmailJS response:', response);
+
+      // Success handling
+      setFormData({
+        /* reset form */
+      });
+      setSubmitSuccess(true);
+    } catch (error) {
+      console.error('Full error:', {
+        message: error.message,
+        text: error.text,
+        response: error.response,
+      });
+      setSubmitError(error.text || error.message || 'Submission failed');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  // Updated input styles for "golden line" effect
+  // Styled components
   const inputClasses = `
-    w-full 
-    py-2 px-1 
-    text-base 
-    bg-transparent 
-    border-b-2 
-    border-gray-300 
-    transition-colors 
-    duration-300 
-    ease-in-out 
-    focus:outline-none 
-    focus:border-b-[#B8860B] 
-    focus:bg-white 
-    placeholder-gray-500 
-  `; // Added placeholder color, changed initial border to gray-300 for visibility
+    w-full py-2 px-1 text-base bg-transparent
+    border-b-2 border-gray-300 transition-colors
+    duration-300 ease-in-out focus:outline-none
+    focus:border-b-[#B8860B] focus:bg-white
+    placeholder-gray-500 disabled:opacity-50
+  `;
 
-  const labelClasses = 'mb-1 font-bold text-sm text-gray-700 block'; // Reduced mb slightly
+  const labelClasses = 'mb-1 font-bold text-sm text-gray-700 block';
 
   return (
     <div className="py-12 md:py-2 font-sans bg-white">
@@ -55,17 +103,29 @@ function ContactForm({ id }) {
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#B8860B]">
           Get In Touch
         </h2>
+
         <p className="text-gray-700 mb-10 max-w-[600px] mx-auto">
           Use the form below to enquire about availability or ask us a question.
           We aim to reply within 48 hours.
         </p>
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-8 text-left" // Increased gap slightly for line inputs
-        >
+
+        {/* Success Message */}
+        {submitSuccess && (
+          <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-lg">
+            Thank you! Your message has been sent successfully.
+          </div>
+        )}
+
+        {/* Error Message */}
+        {submitError && (
+          <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
+            {submitError}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-8 text-left">
+          {/* Name Fields */}
           <div className="flex flex-col md:flex-row gap-8">
-            {' '}
-            {/* Increased gap slightly */}
             <div className="flex-1 flex flex-col">
               <label htmlFor="firstName" className={labelClasses}>
                 First Name *
@@ -74,11 +134,11 @@ function ContactForm({ id }) {
                 type="text"
                 id="firstName"
                 name="firstName"
-                placeholder="Enter first name"
                 value={formData.firstName}
                 onChange={handleChange}
                 required
                 className={inputClasses}
+                disabled={isSubmitting}
               />
             </div>
             <div className="flex-1 flex flex-col">
@@ -89,18 +149,17 @@ function ContactForm({ id }) {
                 type="text"
                 id="lastName"
                 name="lastName"
-                placeholder="Enter last name"
                 value={formData.lastName}
                 onChange={handleChange}
                 required
                 className={inputClasses}
+                disabled={isSubmitting}
               />
             </div>
           </div>
 
+          {/* Contact Fields */}
           <div className="flex flex-col md:flex-row gap-8">
-            {' '}
-            {/* Increased gap slightly */}
             <div className="flex-1 flex flex-col">
               <label htmlFor="email" className={labelClasses}>
                 Email *
@@ -109,11 +168,11 @@ function ContactForm({ id }) {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="Enter email address"
                 value={formData.email}
                 onChange={handleChange}
                 required
                 className={inputClasses}
+                disabled={isSubmitting}
               />
             </div>
             <div className="flex-1 flex flex-col">
@@ -124,20 +183,19 @@ function ContactForm({ id }) {
                 type="tel"
                 id="phone"
                 name="phone"
-                placeholder="Enter phone number"
                 value={formData.phone}
                 onChange={handleChange}
                 className={inputClasses}
+                disabled={isSubmitting}
               />
             </div>
           </div>
 
+          {/* Event Fields */}
           <div className="flex flex-col md:flex-row gap-8">
-            {' '}
-            {/* Increased gap slightly */}
             <div className="flex-1 flex flex-col">
               <label htmlFor="date" className={labelClasses}>
-                Preferred Date
+                Event Date
               </label>
               <input
                 type="date"
@@ -146,6 +204,7 @@ function ContactForm({ id }) {
                 value={formData.date}
                 onChange={handleChange}
                 className={inputClasses}
+                disabled={isSubmitting}
               />
             </div>
             <div className="flex-1 flex flex-col">
@@ -156,15 +215,16 @@ function ContactForm({ id }) {
                 type="number"
                 id="guests"
                 name="guests"
-                placeholder="0"
                 value={formData.guests}
                 onChange={handleChange}
                 min="1"
                 className={inputClasses}
+                disabled={isSubmitting}
               />
             </div>
           </div>
 
+          {/* Message Field */}
           <div className="flex flex-col">
             <label htmlFor="message" className={labelClasses}>
               Your Message *
@@ -172,20 +232,39 @@ function ContactForm({ id }) {
             <textarea
               id="message"
               name="message"
-              placeholder="Type your message here..."
               value={formData.message}
               onChange={handleChange}
-              rows="4" // Adjusted rows for line style
+              rows="4"
               required
-              className={`${inputClasses} resize-y`}
-            ></textarea>
+              className={`${inputClasses} resize-y min-h-[100px]`}
+              disabled={isSubmitting}
+            />
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
-            className="self-center mt-6 py-3 px-8 text-lg font-bold bg-[#B8860B] text-white cursor-pointer transition-colors duration-300 ease-in-out rounded hover:bg-[#D4AF37] w-full sm:w-auto"
+            disabled={isSubmitting}
+            className={`
+              self-center mt-6 py-3 px-8 text-lg font-bold
+              bg-[#B8860B] text-white rounded hover:bg-[#D4AF37]
+              transition-colors duration-300 w-full sm:w-auto
+              ${
+                isSubmitting
+                  ? 'opacity-70 cursor-not-allowed'
+                  : 'cursor-pointer'
+              }
+              flex items-center justify-center gap-2
+            `}
           >
-            Send Enquiry
+            {isSubmitting ? (
+              <>
+                <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                Sending...
+              </>
+            ) : (
+              'Send Enquiry'
+            )}
           </button>
         </form>
       </section>

@@ -1,6 +1,3 @@
-// Import your image
-import weddingImg from '../../assets/images/wedding.jpg';
-
 const PageLanding = ({ title, description, backgroundImage }) => {
   return (
     <div className="font-sans text-gray-800">

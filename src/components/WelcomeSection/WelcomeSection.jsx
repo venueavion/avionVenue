@@ -1,5 +1,3 @@
-import { useEffect, useRef } from 'react';
-
 const WelcomeSection = ({ title, description }) => {
   return (
     <section className="py-20 bg-white">

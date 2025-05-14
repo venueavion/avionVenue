@@ -5,7 +5,6 @@ import WelcomePage from './components/WelcomePage/WelcomePage.jsx';
 import GalleryPage from './components/GalleryPage/GalleryPage.jsx';
 import AvionPage from './components/AvionPage/AvionPage.jsx';
 
-// Create additional page components you want to route to
 import ContactForm from './components/ContactForm/ContactForm.jsx';
 import MapSection from './components/MapSection/MapSection.jsx';
 import WeddingPage from './components/Pages/WeddingPage.jsx';

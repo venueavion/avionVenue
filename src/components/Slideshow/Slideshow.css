@@ -4,3 +4,9 @@
   font-weight: 2800;
   font-style: normal;
 }
+
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}

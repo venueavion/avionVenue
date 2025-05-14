@@ -1,8 +1,9 @@
-// src/components/MapSection/MapSection.jsx
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css'; // Import Leaflet's CSS
-import L from 'leaflet'; // Import Leaflet library
+// Import Leaflet's CSS
+import 'leaflet/dist/leaflet.css';
+// Import Leaflet library
+import L from 'leaflet';
 import styles from './MapSection.module.css';
 
 // Fix for default marker icon issue with webpack/vite

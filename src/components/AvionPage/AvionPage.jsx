@@ -6,6 +6,7 @@ import AvionSection from '../AvionSection/AvionSection';
 import meetingsImg from '../../assets/images/meeting.jpg';
 import diningImg from '../../assets/images/dining.jpg';
 import roofImg from '../../assets/images/trainning.jpg';
+import { LoadingPage } from '../LoadingPage/LoadingPage';
 
 const AvionPage = () => {
   const [sections, setSections] = useState([]);
@@ -96,7 +97,7 @@ const AvionPage = () => {
   };
 
   if (loading)
-    return <div className="text-center py-8">Loading sections...</div>;
+    return <LoadingPage message="Avion is preparing something special.." />;
 
   return (
     <div className="py-12 md:py-20 font-sans bg-white">
@@ -116,69 +117,3 @@ const AvionPage = () => {
 };
 
 export default AvionPage;
-
-// #####################################################################################################################################################################
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// import React from 'react';
-// import AvionSection from '../AvionSection/AvionSection';
-
-// // Import your small images
-// import meetingsImg from '../../assets/images/meeting.jpg';
-// import diningImg from '../../assets/images/dining.jpg';
-// import roofImg from '../../assets/images/trainning.jpg';
-
-// const AvionPage = () => {
-//   const sections = [
-//     {
-//       title: 'Worship',
-//       description:
-//         'The Mowbray is an inspirational events space for businesses to hold their meetings, conferences, team away days and training sessions. Our Sheffield meeting room is perfect for smaller groups of up to 20 and larger groups of up to 150 and we have a range of flexible floor plans to provide your perfect orientation for a productive and inspiring day.',
-//       imageUrl: meetingsImg, // Using local image
-//       reverse: false,
-//       linkUrl: '/meetings', // or external URL "https://themowbray.co.uk/meetings"
-//     },
-//     {
-//       title: 'Parties',
-//       description:
-//         'The Kitchen is at the heart and soul of The Mowbray. We have developed our own feasting style to suit every occasion from when the sun rises until the stars come out. For lovers of our Sheffield heartland and supporters of local, regional and Yorkshire food, explore our seasonal menus and enjoy the luxury of one to one consultations with our head chef.',
-//       imageUrl: diningImg, // Using local image
-//       reverse: true,
-//       linkUrl: '/private-dining', //  'https://themowbray.co.uk/sheffield-private-dining', // External link as requested
-//     },
-//     {
-//       title: 'Training',
-//       description:
-//         "Up On The Roof is our private first floor rooftop which was part of the original restoration of The Mowbray. It's a complete hideaway escape with leafy green views over Park Wood Springs and the historic rooftops of Neepsend. There's something really special about cooking and eating outside - senses are heightened, great vibes happen.",
-//       imageUrl: roofImg, // Using local image
-//       reverse: false,
-//       linkUrl: '/rooftop', // or external URL "https://themowbray.co.uk/rooftop"
-//     },
-//   ];
-
-//   return (
-//     <div className="py-12 md:py-20 font-sans bg-white">
-//       {sections.map((section, index) => (
-//         <AvionSection
-//           key={index}
-//           title={section.title}
-//           description={section.description}
-//           imageUrl={section.imageUrl}
-//           reverse={section.reverse}
-//           linkUrl={section.linkUrl}
-//         />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default AvionPage;

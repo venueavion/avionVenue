@@ -1,4 +1,3 @@
-// src/components/Header/Header.jsx
 import { useState, useEffect } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router-dom';

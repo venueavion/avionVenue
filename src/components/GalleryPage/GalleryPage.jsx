@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import GallerySection from '../GallerSection/GallerSection';
+import { LoadingPage } from '../LoadingPage/LoadingPage';
 
 const GalleryPage = () => {
   const [gridItems, setGridItems] = useState([]);
@@ -39,7 +40,8 @@ const GalleryPage = () => {
   }, []);
 
   if (loading)
-    return <div className="text-center py-8">Loading gallery...</div>;
+    return <LoadingPage message="Avion is preparing something special.." />;
+
   if (error)
     return <div className="text-center py-8 text-red-500">{error}</div>;
 
@@ -51,55 +53,3 @@ const GalleryPage = () => {
 };
 
 export default GalleryPage;
-
-// // src/pages/GalleryPage/GalleryPage.js (or your preferred path for page components)
-// import React from 'react';
-// import GallerySection from '../GallerSection/GallerSection'; // Adjust path to your GallerySection component
-
-// // Import your images for the grid (ensure paths are correct relative to this file)
-// import foodImg from '../../assets/images/food.jpg';
-// import churchImg from '../../assets/images/church.jpg';
-// import eventsImg from '../../assets/images/events.jpg';
-// import privateHireImg from '../../assets/images/private-hire.jpg';
-// import weddingImg from '../../assets/images/wedding.jpg';
-// import trainingImgGrid from '../../assets/images/training.jpg'; // Renamed to avoid naming conflict if 'trainningImg' from AvionPage is in the same scope
-
-// const GalleryPage = () => {
-//   const imageGridData = [
-//     {
-//       title: 'PRIVATE HIRE',
-//       image: privateHireImg,
-//     },
-
-//     {
-//       title: 'WORSHIPPING',
-//       image: churchImg,
-//     },
-//     {
-//       title: 'TRAINING', // Corrected typo from 'TRAINNING'
-//       image: trainingImgGrid,
-//     },
-//     {
-//       title: 'FOOD',
-//       image: foodImg, // Use imported image variable
-//     },
-//     {
-//       title: 'EVENTS',
-//       image: eventsImg,
-//     },
-
-//     {
-//       title: 'WEDDING',
-//       image: weddingImg,
-//     },
-//   ];
-
-//   return (
-//     // You can wrap this in a section with appropriate styling, similar to AvionPage's wrapper
-//     <div>
-//       <GallerySection items={imageGridData} />
-//     </div>
-//   );
-// };
-
-// export default GalleryPage;
