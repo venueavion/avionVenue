@@ -36,7 +36,7 @@ function AppContent() {
       {!isAdminRoute && <Header />}
       <main>
         <Routes>
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/*" element={<AdminPage />} />
           {/* Home Page - shows all components */}
           <Route
             path="/"
