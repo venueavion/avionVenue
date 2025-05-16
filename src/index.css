@@ -47,3 +47,29 @@ a {
 }
 
 
+
+
+/* From Admin */
+.bg-red-500 {
+  background-color: red !important;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+button, input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
