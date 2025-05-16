@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "author": "Tenaw (C2)",
+  "author": "AVION",
   "license": "ISC",
   "scripts": {
     "dev": "vite",
